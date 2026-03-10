@@ -42,7 +42,11 @@
           </div>
 
           <picture>
-            <img src="images/hero-guitar.jpg" alt="Electric guitar on stage" />
+            <img
+              src="images/hero-guitar.jpg"
+              alt="Electric guitar on stage"
+              onerror="this.src = 'images/product-fallback.jpg'"
+            />
           </picture>
         </section>
       </main>
@@ -51,6 +55,8 @@
         <p>&copy; 2026 Mandas Music. All rights reserved.</p>
       </footer>
     </div>
+
+    <div id="cart-toast" class="cart-toast">Added to cart!</div>
 
     <script src="js/main.js"></script>
   </body>

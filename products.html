@@ -24,6 +24,11 @@
                   <span class="cart-count-badge" data-cart-count>0</span></a
                 >
               </li>
+              <li>
+                <button id="dark-toggle" class="btn btn-small" type="button">
+                  Dark mode
+                </button>
+              </li>
             </ul>
           </nav>
         </div>
@@ -36,6 +41,26 @@
           more details.
         </p>
 
+        <input type="text" id="search" placeholder="Search products..." />
+
+        <div class="filters">
+          <button class="btn btn-small" data-filter="All" type="button">
+            All
+          </button>
+          <button class="btn btn-small" data-filter="Guitars" type="button">
+            Guitars
+          </button>
+          <button class="btn btn-small" data-filter="Amps" type="button">
+            Amps
+          </button>
+          <button class="btn btn-small" data-filter="Studio" type="button">
+            Studio
+          </button>
+          <button class="btn btn-small" data-filter="Accessories" type="button">
+            Accessories
+          </button>
+        </div>
+
         <section class="product-grid" data-product-grid></section>
       </main>
 
@@ -43,6 +68,8 @@
         <p>&copy; 2026 Mandas Music. All rights reserved.</p>
       </footer>
     </div>
+
+    <div id="cart-toast" class="cart-toast">Added to cart!</div>
 
     <script src="js/main.js"></script>
   </body>
