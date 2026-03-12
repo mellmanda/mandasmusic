@@ -1,390 +1,372 @@
-// Product data
-const products = [
-  {
-    id: 1,
-    name: "Vintage Stratocaster",
-    price: 899,
-    image: "images/product-1.jpg",
-    category: "Guitars",
-    description:
-      "A timeless electric guitar with bright, expressive tone. Perfect for blues, rock, and indie players.",
-    specs: [
-      "Body: Alder",
-      "Neck: Maple, C-shape",
-      "Pickups: 3x single-coil",
-      "Bridge: Vintage tremolo",
-      "Finish: 3-tone sunburst",
-    ],
-  },
-  {
-    id: 2,
-    name: "Jazz Bass Deluxe",
-    price: 799,
-    image: "images/product-2.jpg",
-    category: "Guitars",
-    description:
-      "A punchy, deep-sounding bass with smooth playability. Ideal for funk, jazz, and studio recording.",
-    specs: [
-      "Body: Ash",
-      "Neck: Maple",
-      "Pickups: Dual single-coil",
-      "Controls: Volume, tone, blend",
-      "Finish: Gloss black",
-    ],
-  },
-  {
-    id: 3,
-    name: "Mandas Acoustic Pro",
-    price: 649,
-    image: "images/product-3.jpg",
-    category: "Guitars",
-    description:
-      "A warm, resonant acoustic guitar with excellent projection. Great for singer-songwriters and live performers.",
-    specs: [
-      "Top: Solid spruce",
-      "Back & sides: Mahogany",
-      "Neck: Rosewood",
-      'Scale: 25.5"',
-      "Finish: Natural satin",
-    ],
-  },
-  {
-    id: 4,
-    name: "Studio Headphones",
-    price: 149,
-    image: "images/product-4.jpg",
-    category: "Studio",
-    description:
-      "Flat-response studio headphones designed for accurate mixing and monitoring.",
-    specs: [
-      "Frequency response: 10Hz–28kHz",
-      "Impedance: 32Ω",
-      "Cable: Detachable 3m",
-      "Weight: 240g",
-    ],
-  },
-  {
-    id: 5,
-    name: "Tube Amp 30W",
-    price: 599,
-    image: "images/product-5.jpg",
-    category: "Amps",
-    description:
-      "A powerful 30-watt tube amplifier with rich harmonics and natural overdrive.",
-    specs: [
-      "Power: 30W",
-      "Tubes: 2x EL84, 3x 12AX7",
-      "Channels: Clean / Overdrive",
-      'Speaker: 12" custom',
-      "Finish: Vintage tweed",
-    ],
-  },
-  {
-    id: 6,
-    name: "Guitar Pedal Board",
-    price: 129,
-    image: "images/product-6.jpg",
-    category: "Accessories",
-    description:
-      "A lightweight pedalboard with built-in power supply and cable routing.",
-    specs: [
-      "Material: Aluminum",
-      "Power: 8 isolated outputs",
-      "Weight: 1.8kg",
-      "Includes: Soft case",
-    ],
-  },
-  {
-    id: 7,
-    name: "Stage Microphone",
-    price: 99,
-    image: "images/product-7.jpg",
-    category: "Accessories",
-    description:
-      "A durable cardioid microphone perfect for live vocals and speeches.",
-    specs: [
-      "Pattern: Cardioid",
-      "Frequency: 50Hz–15kHz",
-      "Connector: XLR",
-      "Includes: Clip + pouch",
-    ],
-  },
-  {
-    id: 8,
-    name: "MIDI Keyboard 49",
-    price: 199,
-    image: "images/product-8.jpg",
-    category: "Studio",
-    description:
-      "A compact MIDI controller with velocity-sensitive keys and DAW integration.",
-    specs: [
-      "Keys: 49",
-      "Pads: 8 RGB",
-      "Knobs: 9 assignable",
-      "Connectivity: USB-MIDI",
-      "Includes: Software bundle",
-    ],
-  },
-];
-
-const CART_KEY = "mandasMusicCart";
-
-function getCart() {
-  const stored = localStorage.getItem(CART_KEY);
-  return stored ? JSON.parse(stored) : [];
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  transition: all 0.25s ease;
 }
 
-function saveCart(cart) {
-  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+html {
+  font-size: 16px;
 }
 
-function showToast() {
-  const toast = document.getElementById("cart-toast");
-  if (!toast) return;
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 1500);
+body {
+  margin: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  line-height: 1.5;
+  color: #222;
+  background-color: #fafafa;
 }
 
-// add product to cart
-
-function addToCart(product){
-
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-// check if item already exists
-let existing = cart.find(item => item.id === product.id);
-
-if(existing){
-existing.quantity += 1;
-}else{
-product.quantity = 1;
-cart.push(product);
+/* Layout wrapper */
+.site-wrapper {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
-localStorage.setItem("cart", JSON.stringify(cart));
-
-updateCartCount();
-showToast();
-
-}
-  saveCart(cart);
-  updateCartCount();
-  showToast();
-}
-
-function removeFromCart(productId) {
-  let cart = getCart();
-  cart = cart.filter((item) => item.id !== productId);
-  saveCart(cart);
-  updateCartCount();
+/* Header */
+header {
+  background-color: #111;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-function updateCartCount(){
-
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-let total = cart.reduce((sum,item)=> sum + item.quantity,0);
-
-document.querySelectorAll("[data-cart-count]").forEach(el=>{
-el.textContent = total;
-});
-
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-document.addEventListener("DOMContentLoaded", updateCartCount);
-
-// PRODUCTS PAGE
-function renderProductGrid(list = products) {
-  const container = document.querySelector("[data-product-grid]");
-  if (!container) return;
-
-  container.innerHTML = "";
-  list.forEach((product) => {
-    const card = document.createElement("article");
-    card.className = "product-card";
-    card.innerHTML = `
-      <a href="product.html?id=${product.id}" class="product-image-link">
-        <img src="${product.image}" alt="${product.name}" onerror="this.src='images/product-fallback.jpg'">
-      </a>
-      <div class="product-info">
-        <h3>${product.name}</h3>
-        <p class="product-price">$${product.price}</p>
-        <button class="btn" data-add-to-cart="${product.id}">Add to cart</button>
-      </div>
-    `;
-    container.appendChild(card);
-  });
-
-  container.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-add-to-cart]");
-    if (!button) return;
-    const id = Number(button.getAttribute("data-add-to-cart"));
-    addToCart(id);
-  });
+.logo {
+  font-weight: 800;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
-function filterProducts(category) {
-  if (category === "All") {
-    renderProductGrid(products);
-  } else {
-    const filtered = products.filter((p) => p.category === category);
-    renderProductGrid(filtered);
+.logo span {
+  color: #ffb400;
+}
+
+/* Navigation */
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1.5rem;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  position: relative;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: #ffb400;
+  transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* Cart badge */
+.cart-link {
+  position: relative;
+}
+
+.cart-count-badge {
+  position: absolute;
+  top: -0.4rem;
+  right: -0.6rem;
+  background-color: #ffb400;
+  color: #111;
+  border-radius: 999px;
+  padding: 0 0.4rem;
+  font-size: 0.7rem;
+}
+
+/* Mobile menu button */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  color: #fff;
+  font-size: 1.8rem;
+  border: none;
+  cursor: pointer;
+}
+
+/* Dark mode */
+body.dark {
+  background: #111;
+  color: #eee;
+}
+
+body.dark header {
+  background: #000;
+}
+
+body.dark .product-card {
+  background: #222;
+}
+
+body.dark main {
+  color: #eee;
+}
+
+body.dark .cart-table {
+  background: #222;
+  color: #eee;
+}
+
+body.dark .cart-table th {
+  background: #333;
+}
+
+/* Main */
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+/* Hero */
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.hero-text h1 {
+  font-size: 2.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-text p {
+  margin-bottom: 1rem;
+  max-width: 32rem;
+}
+
+.hero img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border-radius: 50px;
+  border: none;
+  background-color: #ffb400;
+  color: #111;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 0.95rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn:hover {
+  background-color: #ffdd66;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-small {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+/* Filters & search */
+.filters {
+  margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+#search {
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 280px;
+  margin: 0.5rem 0 1rem;
+}
+
+/* Product grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  background-color: #fff;
+  border-radius: 0.6rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.product-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.product-info {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.product-price {
+  font-weight: 700;
+  color: #ffb400;
+}
+
+/* Product detail */
+.product-detail-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.product-detail-grid img {
+  width: 100%;
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+
+.product-detail-info h1 {
+  margin-top: 0;
+}
+
+.product-detail-price {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #ffb400;
+}
+
+/* Cart */
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.cart-table th,
+.cart-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.cart-table th {
+  background-color: #f5f5f5;
+}
+
+.cart-total {
+  margin-top: 1rem;
+  text-align: right;
+  font-weight: 700;
+}
+
+/* Toast */
+.cart-toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #ffb400;
+  color: #111;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  z-index: 2000;
+}
+
+.cart-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Footer */
+footer {
+  background-color: #111;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+/* Responsive breakpoints */
+@media screen and (max-width: 768px) {
+  .mobile-menu-btn {
+    display: block;
+  }
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    background: #111;
+    width: 100%;
+    padding: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  nav ul.open {
+    display: flex;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .product-detail-grid {
+    grid-template-columns: 1fr;
   }
 }
 
-// PRODUCT PAGE
-function renderSingleProduct() {
-  const detailContainer = document.querySelector("[data-product-detail]");
-  if (!detailContainer) return;
-
-  const params = new URLSearchParams(window.location.search);
-  const id = Number(params.get("id")) || 1;
-  const product = products.find((p) => p.id === id) || products[0];
-
-  detailContainer.innerHTML = `
-    <div class="product-detail-grid">
-      <picture>
-        <source media="(max-width: 600px)" srcset="${product.image}">
-        <img src="${product.image}" alt="${product.name}" onerror="this.src='images/product-fallback.jpg'">
-      </picture>
-      <div class="product-detail-info">
-        <h1>${product.name}</h1>
-        <p class="product-detail-price">$${product.price}</p>
-        <p>${product.description}</p>
-        <ul>
-          ${product.specs.map((s) => `<li>${s}</li>`).join("")}
-        </ul>
-        <button class="btn" id="add-to-cart-detail">Add to cart</button>
-      </div>
-    </div>
-    <h2>You may also like</h2>
-    <div class="product-grid" id="related"></div>
-  `;
-
-  const btn = document.getElementById("add-to-cart-detail");
-  btn.addEventListener("click", () => addToCart(product.id));
-
-  renderRelatedProducts(product.id);
-}
-
-function renderRelatedProducts(currentId) {
-  const relatedContainer = document.getElementById("related");
-  if (!relatedContainer) return;
-
-  const related = products.filter((p) => p.id !== currentId).slice(0, 3);
-  related.forEach((product) => {
-    const card = document.createElement("article");
-    card.className = "product-card";
-    card.innerHTML = `
-      <a href="product.html?id=${product.id}">
-        <img src="${product.image}" alt="${product.name}" onerror="this.src='images/product-fallback.jpg'">
-      </a>
-      <div class="product-info">
-        <h3>${product.name}</h3>
-        <p class="product-price">$${product.price}</p>
-      </div>
-    `;
-    relatedContainer.appendChild(card);
-  });
-}
-
-// CART PAGE
-function renderCart() {
-  const tableBody = document.querySelector("[data-cart-items]");
-  const totalEl = document.querySelector("[data-cart-total]");
-  if (!tableBody || !totalEl) return;
-
-  const cart = getCart();
-  tableBody.innerHTML = "";
-
-  if (cart.length === 0) {
-    tableBody.innerHTML = `<tr><td colspan="4">Your cart is empty.</td></tr>`;
-    totalEl.textContent = "$0";
-    return;
-  }
-
-  let total = 0;
-  cart.forEach((item) => {
-    const row = document.createElement("tr");
-    const itemTotal = item.price * item.quantity;
-    total += itemTotal;
-    row.innerHTML = `
-      <td>${item.name}</td>
-      <td>${item.quantity}</td>
-      <td>$${item.price}</td>
-      <td>
-        $${itemTotal}
-        <button class="btn btn-small" data-remove="${item.id}">Remove</button>
-      </td>
-    `;
-    tableBody.appendChild(row);
-  });
-
-  totalEl.textContent = `$${total}`;
-
-  tableBody.addEventListener("click", (event) => {
-    const btn = event.target.closest("[data-remove]");
-    if (!btn) return;
-    const id = Number(btn.getAttribute("data-remove"));
-    removeFromCart(id);
-    renderCart();
-  });
-}
-
-// Search
-function initSearch() {
-  const searchInput = document.getElementById("search");
-  if (!searchInput) return;
-
-  searchInput.addEventListener("input", (e) => {
-    const term = e.target.value.toLowerCase();
-    const filtered = products.filter((p) =>
-      p.name.toLowerCase().includes(term),
-    );
-    renderProductGrid(filtered);
-  });
-}
-
-// Filters
-function initFilters() {
-  document.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-filter]");
-    if (!btn) return;
-    const category = btn.dataset.filter;
-    filterProducts(category);
-  });
-}
-
-// Dark mode
-function initDarkMode() {
-  const toggle = document.getElementById("dark-toggle");
-  if (!toggle) return;
-
-  toggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
-  });
-}
-
-// Mobile menu
-function initMobileMenu() {
-  const menuBtn = document.getElementById("mobile-menu-btn");
-  const navList = document.querySelector("nav ul");
-
-  if (menuBtn && navList) {
-    menuBtn.addEventListener("click", () => {
-      navList.classList.toggle("open");
-    });
+@media screen and (max-width: 480px) {
+  .hero-text h1 {
+    font-size: 1.9rem;
   }
 }
-
-// Init
-document.addEventListener("DOMContentLoaded", () => {
-  updateCartCount();
-  renderProductGrid();
-  renderSingleProduct();
-  renderCart();
-  initSearch();
-  initFilters();
-  initDarkMode();
-  initMobileMenu();
-});
