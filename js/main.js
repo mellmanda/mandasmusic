@@ -145,21 +145,28 @@ function showToast() {
   setTimeout(() => toast.classList.remove("show"), 1500);
 }
 
-function addToCart(productId) {
-  const cart = getCart();
-  const existing = cart.find((item) => item.id === productId);
-  if (existing) {
-    existing.quantity += 1;
-  } else {
-    const product = products.find((p) => p.id === productId);
-    if (!product) return;
-    cart.push({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: 1,
-    });
-  }
+// add product to cart
+
+function addToCart(product){
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+// check if item already exists
+let existing = cart.find(item => item.id === product.id);
+
+if(existing){
+existing.quantity += 1;
+}else{
+product.quantity = 1;
+cart.push(product);
+}
+
+localStorage.setItem("cart", JSON.stringify(cart));
+
+updateCartCount();
+showToast();
+
+}
   saveCart(cart);
   updateCartCount();
   showToast();
@@ -172,14 +179,19 @@ function removeFromCart(productId) {
   updateCartCount();
 }
 
-function updateCartCount() {
-  const cart = getCart();
-  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const badge = document.querySelector("[data-cart-count]");
-  if (badge) {
-    badge.textContent = count;
-  }
+function updateCartCount(){
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let total = cart.reduce((sum,item)=> sum + item.quantity,0);
+
+document.querySelectorAll("[data-cart-count]").forEach(el=>{
+el.textContent = total;
+});
+
 }
+
+document.addEventListener("DOMContentLoaded", updateCartCount);
 
 // PRODUCTS PAGE
 function renderProductGrid(list = products) {
