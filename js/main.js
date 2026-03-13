@@ -420,3 +420,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initDarkMode();
   initMobileMenu();
 });
+
+/* Some styling ideas were generated with chatGPT (AI). */
+/* code assistance from Chatgpt, P5.js (AI). */
