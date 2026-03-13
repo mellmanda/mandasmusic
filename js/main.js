@@ -421,5 +421,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initMobileMenu();
 });
 
-/* Some styling ideas were generated with chatGPT (AI). */
-/* code assistance from Chatgpt, P5.js (AI). */
+/Some styling ideas were generated with chatGPT (AI). /
+/ code assistance from Chatgpt, P5.js (AI). /
