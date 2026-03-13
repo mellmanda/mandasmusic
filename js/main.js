@@ -203,14 +203,15 @@ function renderProductGrid(list = products) {
     `;
     container.appendChild(card);
   });
-
-  container.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-add-to-cart]");
-    if (!button) return;
-    const id = Number(button.getAttribute("data-add-to-cart"));
-    addToCart(id);
-  });
 }
+
+document.addEventListener("click", (event) => {
+  const addBtn = event.target.closest("[data-add-to-cart]");
+  if (addBtn) {
+    const id = Number(addBtn.dataset.addToCart);
+    addToCart(id);
+  }
+});
 
 function filterProducts(category) {
   if (category === "All") {
@@ -293,57 +294,64 @@ function renderCart() {
   }
 
   let total = 0;
+
   cart.forEach((item) => {
     const row = document.createElement("tr");
     const itemTotal = item.price * item.quantity;
     total += itemTotal;
+
     row.innerHTML = `
-  <td class="cart-product">
-    <img src="${item.image}" alt="${item.name}">
-    <span>${item.name}</span>
-  </td>
-  <td class="cart-qty">
-  <button class="qty-btn" data-qty-minus="${item.id}">−</button>
-  <span>${item.quantity}</span>
-  <button class="qty-btn" data-qty-plus="${item.id}">+</button>
-</td>
-  <td>${item.price} kr</td>
-  <td>${itemTotal} kr</td>
-  <td>
-    <button class="btn btn-small" data-remove="${item.id}">Remove</button>
-  </td>
-`;
+      <td class="cart-product">
+        <img src="${item.image}" alt="${item.name}">
+        <span>${item.name}</span>
+      </td>
+
+      <td class="cart-qty">
+        <button class="qty-btn" data-qty-minus="${item.id}">−</button>
+        <span>${item.quantity}</span>
+        <button class="qty-btn" data-qty-plus="${item.id}">+</button>
+      </td>
+
+      <td>${item.price} kr</td>
+      <td>${itemTotal} kr</td>
+
+      <td>
+        <button class="btn btn-small" data-remove="${item.id}">Remove</button>
+      </td>
+    `;
+
     tableBody.appendChild(row);
   });
 
   totalEl.textContent = `${total}kr`;
-
-  tableBody.addEventListener("click", (event) => {
-    const plus = event.target.closest("[data-qty-plus]");
-    const minus = event.target.closest("[data-qty-minus]");
-    const remove = event.target.closest("[data-remove]");
-
-    if (plus) {
-      const id = Number(plus.dataset.qtyPlus);
-      increaseQty(id);
-      renderCart();
-      return;
-    }
-
-    if (minus) {
-      const id = Number(minus.dataset.qtyMinus);
-      decreaseQty(id);
-      renderCart();
-      return;
-    }
-
-    if (remove) {
-      const id = Number(remove.dataset.remove);
-      removeFromCart(id);
-      renderCart();
-    }
-  });
 }
+
+// FIXED: ONE global listener for + / – / remove
+document.addEventListener("click", (event) => {
+  const plus = event.target.closest("[data-qty-plus]");
+  const minus = event.target.closest("[data-qty-minus]");
+  const remove = event.target.closest("[data-remove]");
+
+  if (plus) {
+    const id = Number(plus.dataset.qtyPlus);
+    increaseQty(id);
+    renderCart();
+    return;
+  }
+
+  if (minus) {
+    const id = Number(minus.dataset.qtyMinus);
+    decreaseQty(id);
+    renderCart();
+    return;
+  }
+
+  if (remove) {
+    const id = Number(remove.dataset.remove);
+    removeFromCart(id);
+    renderCart();
+  }
+});
 
 function increaseQty(productId) {
   const cart = getCart();
@@ -360,14 +368,12 @@ function decreaseQty(productId) {
   const item = cart.find((i) => i.id === productId);
   if (!item) return;
 
-  item.quantity -= 1;
-
-  if (item.quantity <= 0) {
-    // remove item completely
+  if (item.quantity > 1) {
+    item.quantity -= 1;
+    saveCart(cart);
+  } else {
     const newCart = cart.filter((i) => i.id !== productId);
     saveCart(newCart);
-  } else {
-    saveCart(cart);
   }
 
   updateCartCount();
