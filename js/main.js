@@ -5,6 +5,7 @@ const products = [
     name: "Vintage Stratocaster",
     price: 8990,
     image: "images/product-1.jpg",
+    object-fit: contain;
     category: "Guitars",
     description:
       "A timeless electric guitar with bright, expressive tone. Perfect for blues, rock, and indie players.",
