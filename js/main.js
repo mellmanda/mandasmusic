@@ -3,7 +3,7 @@ const products = [
   {
     id: 1,
     name: "Vintage Stratocaster",
-    price: 899,
+    price: 8990,
     image: "images/product-1.jpg",
     category: "Guitars",
     description:
@@ -19,7 +19,7 @@ const products = [
   {
     id: 2,
     name: "Jazz Bass Deluxe",
-    price: 799,
+    price: 7990,
     image: "images/product-2.jpg",
     category: "Guitars",
     description:
@@ -35,7 +35,7 @@ const products = [
   {
     id: 3,
     name: "Mandas Acoustic Pro",
-    price: 649,
+    price: 6490,
     image: "images/product-3.jpg",
     category: "Guitars",
     description:
@@ -51,7 +51,7 @@ const products = [
   {
     id: 4,
     name: "Studio Headphones",
-    price: 149,
+    price: 1490,
     image: "images/product-4.jpg",
     category: "Studio",
     description:
@@ -66,7 +66,7 @@ const products = [
   {
     id: 5,
     name: "Tube Amp 30W",
-    price: 599,
+    price: 5990,
     image: "images/product-5.jpg",
     category: "Amps",
     description:
@@ -82,7 +82,7 @@ const products = [
   {
     id: 6,
     name: "Guitar Pedal Board",
-    price: 129,
+    price: 1290,
     image: "images/product-6.jpg",
     category: "Accessories",
     description:
@@ -97,7 +97,7 @@ const products = [
   {
     id: 7,
     name: "Stage Microphone",
-    price: 99,
+    price: 990,
     image: "images/product-7.jpg",
     category: "Accessories",
     description:
@@ -112,7 +112,7 @@ const products = [
   {
     id: 8,
     name: "MIDI Keyboard 49",
-    price: 199,
+    price: 1990,
     image: "images/product-8.jpg",
     category: "Studio",
     description:
@@ -196,7 +196,7 @@ function renderProductGrid(list = products) {
       </a>
       <div class="product-info">
         <h3>${product.name}</h3>
-        <p class="product-price">$${product.price}</p>
+        <p class="product-price">${product.price}kr</p>
         <button class="btn" data-add-to-cart="${product.id}">Add to cart</button>
       </div>
     `;
@@ -237,7 +237,7 @@ function renderSingleProduct() {
       </picture>
       <div class="product-detail-info">
         <h1>${product.name}</h1>
-        <p class="product-detail-price">$${product.price}</p>
+        <p class="product-detail-price">${product.price}kr</p>
         <p>${product.description}</p>
         <ul>
           ${product.specs.map((s) => `<li>${s}</li>`).join("")}
@@ -269,7 +269,7 @@ function renderRelatedProducts(currentId) {
       </a>
       <div class="product-info">
         <h3>${product.name}</h3>
-        <p class="product-price">$${product.price}</p>
+        <p class="product-price">${product.price}kr</p>
       </div>
     `;
     relatedContainer.appendChild(card);
@@ -287,7 +287,7 @@ function renderCart() {
 
   if (cart.length === 0) {
     tableBody.innerHTML = `<tr><td colspan="4">Your cart is empty.</td></tr>`;
-    totalEl.textContent = "$0";
+    totalEl.textContent = "0kr";
     return;
   }
 
@@ -299,16 +299,16 @@ function renderCart() {
     row.innerHTML = `
       <td>${item.name}</td>
       <td>${item.quantity}</td>
-      <td>$${item.price}</td>
+      <td>${item.price}kr</td>
       <td>
-        $${itemTotal}
+        ${itemTotal}kr
         <button class="btn btn-small" data-remove="${item.id}">Remove</button>
       </td>
     `;
     tableBody.appendChild(row);
   });
 
-  totalEl.textContent = `$${total}`;
+  totalEl.textContent = `${total}kr`;
 
   tableBody.addEventListener("click", (event) => {
     const btn = event.target.closest("[data-remove]");
@@ -340,16 +340,6 @@ function initFilters() {
     if (!btn) return;
     const category = btn.dataset.filter;
     filterProducts(category);
-  });
-}
-
-// Dark mode
-function initDarkMode() {
-  const toggle = document.getElementById("dark-toggle");
-  if (!toggle) return;
-
-  toggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
   });
 }
 

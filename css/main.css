@@ -148,6 +148,63 @@ footer {
   display: block;
 }
 
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px;
+  margin-top: 40px;
+  align-items: start;
+}
+
+.product-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+  backdrop-filter: blur(6px);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.product-card h3 {
+  margin: 10px 0;
+}
+
+.product-card p {
+  margin: 6px 0;
+  font-weight: 500;
+}
+
+#search {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 260px;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
 /* floating music notes background */
 
 .music-notes {
@@ -237,4 +294,58 @@ footer {
   100% {
     transform: translateY(-120vh) translateX(-40px);
   }
+}
+
+/* cart table styling */
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 25px;
+}
+
+.cart-table th {
+  text-align: left;
+  padding: 12px 10px;
+  font-weight: 600;
+  opacity: 0.9;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.cart-table td {
+  padding: 14px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* align numbers nicely */
+
+.cart-table td:nth-child(2),
+.cart-table td:nth-child(3),
+.cart-table td:nth-child(4) {
+  text-align: center;
+}
+
+/* remove button */
+
+.cart-table button {
+  background: #ff4ecd;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.cart-table button:hover {
+  transform: scale(1.05);
+  background: #ff2db5;
+}
+
+/* cart total */
+
+.cart-total {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 500;
 }
