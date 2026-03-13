@@ -158,6 +158,7 @@ function addToCart(productId) {
       name: product.name,
       price: product.price,
       quantity: 1,
+      image: product.image,
     });
   }
   saveCart(cart);
@@ -297,14 +298,17 @@ function renderCart() {
     const itemTotal = item.price * item.quantity;
     total += itemTotal;
     row.innerHTML = `
-      <td>${item.name}</td>
-      <td>${item.quantity}</td>
-      <td>${item.price}kr</td>
-      <td>
-        ${itemTotal}kr
-        <button class="btn btn-small" data-remove="${item.id}">Remove</button>
-      </td>
-    `;
+  <td class="cart-product">
+    <img src="${item.image}" alt="${item.name}">
+    <span>${item.name}</span>
+  </td>
+  <td>${item.quantity}</td>
+  <td>${item.price} kr</td>
+  <td>${itemTotal} kr</td>
+  <td>
+    <button class="btn btn-small" data-remove="${item.id}">Remove</button>
+  </td>
+`;
     tableBody.appendChild(row);
   });
 
